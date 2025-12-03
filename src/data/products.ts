@@ -17,6 +17,7 @@ import dress10 from "../assets/gallery/Dress/dress10.jpg";
 import dress11 from "../assets/gallery/Dress/dress11.jpg";
 import dress12 from "../assets/gallery/Dress/dress12.jpg";
 
+
 // JACKETS
 import product2 from "../assets/img/prod2.jpeg";
 import jacket2 from "../assets/gallery/Jacket/jacket2.jpg";
@@ -44,6 +45,7 @@ import shirt9 from "../assets/gallery/Shirt/shirt9.jpg";
 import shirt10 from "../assets/gallery/Shirt/shirt10.jpg";
 import shirt11 from "../assets/gallery/Shirt/shirt11.jpg";
 import shirt12 from "../assets/gallery/Shirt/shirt12.jpg";
+
 
 // ACCESSORIES
 import acc1 from "../assets/gallery/Accessories/acc1.jpg";
@@ -82,6 +84,7 @@ export const products = [
   { id: 10, name: "Glam Party Dress", category: "Dresses", image: dress10, price: "$99", description: "Glam Party Dress" },
   { id: 11, name: "Chic Linen Dress", category: "Dresses", image: dress11, price: "$85", description: "Chic Linen Dress" },
   { id: 12, name: "Designer Luxury Gown", category: "Dresses", image: dress12, price: "$240", description: "Designer Luxury Gown" },
+  
 
   // --- 12 JACKETS ---
   { id: 13, name: "Fashion Leather Jacket", category: "Jackets", image: product2, price: "$170", description: "Fashion Leather Jacket" },
@@ -96,6 +99,7 @@ export const products = [
   { id: 22, name: "Vintage Leather Jacket", category: "Jackets", image: jacket10, price: "$220", description: "Vintage Leather Jacket" },
   { id: 23, name: "Slim Fit Jacket", category: "Jackets", image: jacket11, price: "$160", description: "Slim Fit Jacket" },
   { id: 24, name: "Designer Winter Jacket", category: "Jackets", image: jacket12, price: "$260", description: "Designer Winter Jacket" },
+ 
 
   // --- 12 SHIRTS ---
   { id: 25, name: "Casual Shirt", category: "Shirts", image: shirt1, price: "$45", description: "Casual Shirt" },
@@ -110,6 +114,7 @@ export const products = [
   { id: 34, name: "Premium Long Sleeve", category: "Shirts", image: shirt10, price: "$80", description: "Premium Long Sleeve" },
   { id: 35, name: "Slim Fit Shirt", category: "Shirts", image: shirt11, price: "$90", description: "Slim Fit Shirt" },
   { id: 36, name: "Designer Luxury Shirt", category: "Shirts", image: shirt12, price: "$120", description: "Designer Luxury Shirt" },
+
 
   // --- 12 ACCESSORIES ---
   { id: 37, name: "Leather Bag", category: "Accessories", image: acc1, price: "$80", description: "Leather Bag" },

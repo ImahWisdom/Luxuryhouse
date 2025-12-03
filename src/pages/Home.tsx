@@ -1,16 +1,16 @@
 import React from "react";
 import heroImg from "../assets/img/hero.jpg"; // hero image
-import product1 from "../assets/img/prod1.jpg";
+import dress1 from "../assets/gallery/Dress/dress1.jpg";
 import product2 from "../assets/img/prod2.jpeg";
-import product3 from "../assets/img/prod3.webp";
-import product4 from "../assets/img/prod4.jpg";
+import shirt8 from "../assets/gallery/Shirt/shirt8.jpg";
+import acc1 from "../assets/gallery/Accessories/acc1.jpg";
 import { Link } from "react-router-dom";
 
 const featuredProducts = [
-  { id: 1, name: "Elegant Dress", image: product1, price: "$120" },
-  { id: 2, name: "Leather Jacket", image: product2, price: "$60" },
-  { id: 3, name: "Casual Shirt", image: product3, price: "$150" },
-  { id: 4, name: "Stylish Cap", image: product4, price: "$40" },
+  { id: 1, name: "Silk Evening Gown", image: dress1, price: "$120" },
+  { id: 13, name: "Leather Jacket", image: product2, price: "$60" },
+  { id: 32, name: "Cotton Shirt", image: shirt8, price: "$150" },
+  { id: 37, name: "Leather Bag", image: acc1, price: "$40" },
 ];
 
 const Home: React.FC = () => {

@@ -81,25 +81,68 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-black px-4 pb-4 flex flex-col gap-4 z-40">
-          <Link to="/gallery" className="hover:text-[#D4B78F]" onClick={() => setIsOpen(false)}>
-            Gallery
-          </Link>
-          <Link to="/about" className="hover:text-[#D4B78F]" onClick={() => setIsOpen(false)}>
-            About
-          </Link>
-          <Link to="/contact" className="hover:text-[#D4B78F]" onClick={() => setIsOpen(false)}>
-            Contact
-          </Link>
+      {/* Mobile Slide-in Menu */}
+      <>
+        {/* Backdrop */}
+        {isOpen && (
+          <div
+            onClick={() => setIsOpen(false)}
+            className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
+          ></div>
+        )}
+
+        {/* Slide-in Panel */}
+        <div
+          className={`fixed top-0 right-0 h-full w-64 bg-white text-black shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
+            isOpen ? "translate-x-0" : "translate-x-full"
+          } flex flex-col justify-center items-center`}
+        >
+          {/* Close Button */}
+          <button
+            onClick={() => setIsOpen(false)}
+            className="absolute top-4 right-4 text-black text-3xl font-bold"
+            aria-label="Close Menu"
+          >
+            &times;
+          </button>
+
+          {/* Menu Items */}
+          <div className="flex flex-col gap-12 text-center">
+            <Link
+              to="/gallery"
+              className="hover:text-[#D4B78F] font-semibold text-lg"
+              onClick={() => setIsOpen(false)}
+            >
+              Gallery
+            </Link>
+            <Link
+              to="/about"
+              className="hover:text-[#D4B78F] font-semibold text-lg"
+              onClick={() => setIsOpen(false)}
+            >
+              About
+            </Link>
+            <Link
+              to="/contact"
+              className="hover:text-[#D4B78F] font-semibold text-lg"
+              onClick={() => setIsOpen(false)}
+            >
+              Contact
+            </Link>
+          </div>
         </div>
-      )}
+      </>
     </nav>
   );
 };
 
 export default Navbar;
+
+
+
+
+
+
 
 
 
