@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import { FaTrash, FaPlus, FaMinus } from "react-icons/fa";
+import { payWithPaystack } from "../utils/paystack";
 
 const Cart: React.FC = () => {
   const { cart, addToCart, decreaseQuantity, removeFromCart } = useCart();
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
 
   if (cart.length === 0)
     return (
@@ -28,6 +32,30 @@ const Cart: React.FC = () => {
     0
   );
 
+  const handleCheckout = () => {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError("Please enter a valid email address to proceed.");
+      return;
+    }
+    setEmailError("");
+    setIsProcessing(true);
+
+    const reference = `naijastyle_${Date.now()}`;
+
+    payWithPaystack({
+      email,
+      amount: total,
+      reference,
+      onSuccess: (ref) => {
+        setIsProcessing(false);
+        alert(`Payment successful! Reference: ${ref.reference}`);
+      },
+      onClose: () => {
+        setIsProcessing(false);
+      },
+    });
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-6 pt-32 pb-24">
       <h1 className="text-4xl font-bold mb-8 text-center">Your Cart</h1>
@@ -38,23 +66,19 @@ const Cart: React.FC = () => {
             key={item.id}
             className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-4 border rounded-xl shadow-sm hover:shadow-md transition"
           >
-            {/* Left: Image + Info */}
             <div className="flex items-start md:items-center gap-4 flex-1">
               <img
                 src={item.image}
                 alt={item.name}
                 className="w-28 h-28 object-cover rounded-lg"
               />
-
               <div className="flex flex-col gap-2">
                 <h2 className="font-semibold text-lg">{item.name}</h2>
                 <p className="text-[#D4B78F] font-bold text-lg">{item.price}</p>
               </div>
             </div>
 
-            {/* Quantity Controls + Trash */}
             <div className="flex items-center justify-between md:justify-end w-full md:w-auto gap-4">
-              {/* Quantity controls */}
               <div className="flex items-center gap-3 border rounded-lg px-3 py-2">
                 <button
                   onClick={() => decreaseQuantity(item.id)}
@@ -63,9 +87,7 @@ const Cart: React.FC = () => {
                 >
                   <FaMinus />
                 </button>
-
                 <span className="font-semibold">{item.quantity}</span>
-
                 <button
                   onClick={() => addToCart(item)}
                   className="text-gray-600 hover:text-black transition"
@@ -75,7 +97,6 @@ const Cart: React.FC = () => {
                 </button>
               </div>
 
-              {/* Trash */}
               <button
                 onClick={() => removeFromCart(item.id)}
                 className="text-red-500 hover:text-red-700 transition text-xl"
@@ -87,13 +108,29 @@ const Cart: React.FC = () => {
           </div>
         ))}
 
-        {/* Total */}
         <div className="mt-8 flex justify-between items-center text-xl font-semibold">
           <span>Total:</span>
           <span>${total.toFixed(2)}</span>
         </div>
 
-        {/* Actions */}
+        {/* Email input for Paystack */}
+        <div className="mt-4 flex flex-col gap-2 max-w-md ml-auto w-full">
+          <label className="text-sm font-semibold text-gray-700">
+            Email for payment receipt
+          </label>
+          <input
+            type="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setEmailError("");
+            }}
+            className="border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#D4B78F]"
+          />
+          {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
+        </div>
+
         <div className="mt-6 flex justify-end gap-4 flex-wrap">
           <Link
             to="/gallery"
@@ -102,8 +139,12 @@ const Cart: React.FC = () => {
             Continue Shopping
           </Link>
 
-          <button className="px-6 py-3 bg-[#D4B78F] text-black rounded-lg hover:bg-[#b99b6f] transition">
-            Checkout
+          <button
+            onClick={handleCheckout}
+            disabled={isProcessing}
+            className="px-6 py-3 bg-[#D4B78F] text-black rounded-lg hover:bg-[#b99b6f] transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isProcessing ? "Processing..." : "Checkout with Paystack"}
           </button>
         </div>
       </div>
@@ -112,6 +153,7 @@ const Cart: React.FC = () => {
 };
 
 export default Cart;
+
 
 
 

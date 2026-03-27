@@ -1,4 +1,3 @@
-// src/components/Navbar.tsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
@@ -8,6 +7,16 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { getCartCount } = useCart();
   const cartCount = getCartCount();
+
+  // Check if user is logged in
+  const user = localStorage.getItem("user");
+  const isLoggedIn = !!user;
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "/";
+  };
 
   return (
     <nav className="bg-black text-white fixed w-full z-50 shadow-md">
@@ -22,12 +31,27 @@ const Navbar: React.FC = () => {
           <Link to="/gallery" className="hover:text-[#D4B78F] transition-colors">
             Gallery
           </Link>
-          <Link to="/about" className="hover:text-[#D4B78F] transition-colors">
-            About
-          </Link>
-          <Link to="/contact" className="hover:text-[#D4B78F] transition-colors">
-            Contact
-          </Link>
+
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              className="hover:text-[#D4B78F] transition-colors"
+            >
+              Logout
+            </button>
+          ) : (
+            <>
+              <Link to="/login" className="hover:text-[#D4B78F] transition-colors">
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="bg-[#D4B78F] text-black px-4 py-1.5 rounded-lg font-semibold hover:bg-[#b99b6f] transition"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
 
           {/* Cart Icon */}
           <Link to="/cart" className="relative">
@@ -40,7 +64,7 @@ const Navbar: React.FC = () => {
           </Link>
         </div>
 
-        {/* Mobile Hamburger */}
+        {/* Mobile: cart + hamburger */}
         <div className="md:hidden flex items-center gap-4">
           <Link to="/cart" className="relative">
             <FaShoppingCart className="w-5 h-5 hover:text-[#D4B78F] transition-colors" />
@@ -57,23 +81,11 @@ const Navbar: React.FC = () => {
             className="cursor-pointer z-50 relative"
           >
             {isOpen ? (
-              <svg
-                className="w-7 h-7 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             ) : (
-              <svg
-                className="w-7 h-7 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             )}
@@ -83,21 +95,18 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Slide-in Menu */}
       <>
-        {/* Backdrop */}
         {isOpen && (
           <div
             onClick={() => setIsOpen(false)}
             className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
-          ></div>
+          />
         )}
 
-        {/* Slide-in Panel */}
         <div
           className={`fixed top-0 right-0 h-full w-64 bg-white text-black shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
             isOpen ? "translate-x-0" : "translate-x-full"
           } flex flex-col justify-center items-center`}
         >
-          {/* Close Button */}
           <button
             onClick={() => setIsOpen(false)}
             className="absolute top-4 right-4 text-black text-3xl font-bold"
@@ -106,29 +115,32 @@ const Navbar: React.FC = () => {
             &times;
           </button>
 
-          {/* Menu Items */}
-          <div className="flex flex-col gap-12 text-center">
-            <Link
-              to="/gallery"
-              className="hover:text-[#D4B78F] font-semibold text-lg"
-              onClick={() => setIsOpen(false)}
-            >
+          <div className="flex flex-col gap-10 text-center">
+            <Link to="/gallery" className="hover:text-[#D4B78F] font-semibold text-lg" onClick={() => setIsOpen(false)}>
               Gallery
             </Link>
-            <Link
-              to="/about"
-              className="hover:text-[#D4B78F] font-semibold text-lg"
-              onClick={() => setIsOpen(false)}
-            >
-              About
-            </Link>
-            <Link
-              to="/contact"
-              className="hover:text-[#D4B78F] font-semibold text-lg"
-              onClick={() => setIsOpen(false)}
-            >
-              Contact
-            </Link>
+
+            {isLoggedIn ? (
+              <button
+                onClick={() => { handleLogout(); setIsOpen(false); }}
+                className="hover:text-[#D4B78F] font-semibold text-lg"
+              >
+                Logout
+              </button>
+            ) : (
+              <>
+                <Link to="/login" className="hover:text-[#D4B78F] font-semibold text-lg" onClick={() => setIsOpen(false)}>
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="bg-[#D4B78F] text-black px-5 py-2 rounded-lg font-semibold hover:bg-[#b99b6f] transition"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </>
